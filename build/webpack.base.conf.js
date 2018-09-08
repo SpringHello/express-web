@@ -19,6 +19,7 @@ module.exports = {
       '@': resolve('src'),
     }
   },
+  devtool:'cheap-module-source-map',
   module: {
     rules: [
       {
@@ -42,6 +43,15 @@ module.exports = {
           name: 'img/[name].[ext]'
         }
       },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 1000,
+          // name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+          name: 'fonts/[name].[ext]'
+        }
+      }
     ]
   }
 }

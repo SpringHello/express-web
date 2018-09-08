@@ -1,0 +1,94 @@
+//文章样式
+.art-content {
+  /*以下是正文内容样式*/
+  h1 {
+    margin: .67rem 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  h2 {
+    padding-bottom: 12px;
+    font-size: 24px;
+    border-bottom: 1px solid #ececec;
+    margin-top: 35px;
+    margin-bottom: 10px;
+  }
+  h3 {
+    font-size: 18px;
+    padding-bottom: 0;
+    margin-bottom: 10px;
+  }
+  pre {
+    position: relative;
+    code {
+      font-size: 15px;
+      padding: 18px 15px 12px;
+      white-space: pre;
+      color: #333;
+      display: block;
+      background: #f8f8f8;
+      overflow: auto;
+      .token.function {
+        color: #dd4a68;
+      }
+      .token.keyword {
+        color: #07a;
+      }
+      .token.punctuation {
+        color: #999;
+      }
+      .token.cdata, .token.comment, .token.doctype, .token.prolog {
+        color: #708090;
+      }
+      .token.operator, .token.url {
+        color: #a67f59;
+      }
+    }
+    button {
+      top: 5px;
+      position: absolute;
+      right: 10px;
+      border: none;
+      background-color: rgba(0, 0, 0, 0);
+      font-size: 12px;
+      cursor: pointer;
+      outline: none;
+    }
+  }
+  blockquote {
+    color: #666;
+    padding: 1px 23px;
+    margin: 22px 0;
+    border-left: 4px solid #cbcbcb;
+    background-color: #f8f8f8;
+    white-space: pre-line;
+    > p {
+      font-size: 16px;
+      margin: 0px;
+    }
+  }
+  ul {
+    margin: 22px 0;
+    font-size: 15px;
+    padding-left: 40px;
+    list-style: disc;
+  }
+  p {
+    margin: 22px 0px;
+  }
+  > p {
+    font-size: 15px;
+    color: #333
+    //white-space: pre;
+  }
+  img {
+    max-width: 100%;
+    margin: 20px 0px;
+    border: 1px solid #ccc;
+  }
+  strong {
+    color: rgba(0, 0, 0, 0.75);
+    font-size: 17px;
+  }
+}

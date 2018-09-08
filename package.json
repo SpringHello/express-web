@@ -13,7 +13,9 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "clipboard": "^2.0.1",
     "express": "^4.16.3",
+    "iview": "^3.1.0",
     "log4js": "^3.0.5",
     "mysql": "^2.16.0",
     "promise-polyfill": "^8.0.0",
@@ -30,6 +32,7 @@
     "babel-core": "^6.22.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-loader": "^7.1.1",
+    "babel-plugin-import": "^1.8.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-runtime": "^6.22.0",
     "babel-plugin-transform-vue-jsx": "^3.5.0",

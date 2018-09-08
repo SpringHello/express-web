@@ -2,7 +2,7 @@
  * Created by yunrui001 on 2018-07-13.
  */
 import createApp from './createApp'
-import 'promise-polyfill/src/polyfill';
+import 'promise-polyfill/src/polyfill'
 var {app, router, store} = createApp()
 
 if (window.__INITIAL_STATE__) {

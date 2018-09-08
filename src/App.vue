@@ -47,16 +47,6 @@
             img: require('./assets/img/ad/15325704291220def5d47f7d903eb33c63e9bdaee523d.png'),
             alt: '腾讯云',
             url: 'https://cloud.tencent.com/act/campus?fromSource=gwzcw.1087969.1087969.1087969'
-          },
-          {
-            img: require('./assets/img/ad/15325704291220def5d47f7d903eb33c63e9bdaee523d.png'),
-            alt: '腾讯云',
-            url: 'https://cloud.tencent.com/act/campus?fromSource=gwzcw.1087969.1087969.1087969'
-          },
-          {
-            img: require('./assets/img/ad/15325704291220def5d47f7d903eb33c63e9bdaee523d.png'),
-            alt: '腾讯云',
-            url: 'https://cloud.tencent.com/act/campus?fromSource=gwzcw.1087969.1087969.1087969'
           }
         ]
       }
@@ -95,6 +85,7 @@
         right: 0px;
         transform: translateZ(0);
         transition: all .2s;
+        z-index: 100;
         &.visible {
           transform: translate3d(0, -100%, 0);
         }
