@@ -12,14 +12,15 @@ module.exports = {
     publicPath: '/',
     path: resolve('dist')
   },
+  externals: {},
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src'),
+      '@': resolve('src')
     }
   },
-  devtool:'cheap-module-source-map',
+  devtool: 'cheap-module-source-map',
   module: {
     rules: [
       {

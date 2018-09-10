@@ -36,6 +36,7 @@ function renderToString(context) {
 app.use('/', express.static('./dist'))
 app.use('/', express.static('./assets'))
 
+/*查询文章列表*/
 app.get('/api/getArticleList/:type', (req, res, next) => {
   let sql = `select *,UNIX_TIMESTAMP(createTime) as createTime from Article where artType='${req.params.type}'`
   connection.query(sql, function (err, result) {
@@ -45,30 +46,47 @@ app.get('/api/getArticleList/:type', (req, res, next) => {
     }
     //把搜索值输出
     logger.info('getArticleList')
+    res.writeHead(200, {'Content-Type': 'application/json;charset=utf-8'});//设置response编码为utf-8
     res.end(JSON.stringify(result));
   })
 })
 
+/*查询具体文章*/
 app.get('/api/getArt/:aid', (req, res, next) => {
-    let sql = `select * from Content where aid = '${req.params.aid}'`
-    let updateSql = `update article set article.read = article.read + 1 where aid = '${req.params.aid}'`
-    connection.query(sql, function (err, result) {
-      if (err) {
-        logger.error(err.message)
-        return;
-      }
-      //把搜索值输出
-      logger.info(`getArt==>${req.params.aid}`)
-      res.end(JSON.stringify(result[0]));
-    })
-    connection.query(updateSql, function (err, result) {
-      if (err) {
-        logger.error(err.message)
-        return;
-      }
-    })
-  }
-)
+  let sql = `select * from Content where aid = '${req.params.aid}'`
+  let updateSql = `update article set article.read = article.read + 1 where aid = '${req.params.aid}'`
+  connection.query(sql, function (err, result) {
+    if (err) {
+      logger.error(err.message)
+      return;
+    }
+    //把搜索值输出
+    logger.info(`getArt==>${req.params.aid}`)
+    res.writeHead(200, {'Content-Type': 'application/json;charset=utf-8'});//设置response编码为utf-8
+    res.end(JSON.stringify(result[0]));
+  })
+  connection.query(updateSql, function (err, result) {
+    if (err) {
+      logger.error(err.message)
+      return;
+    }
+  })
+})
+
+/*查询文章评论*/
+app.get('/api/getArtComment/:aid', (req, res, next) => {
+  let sql = `select * from Comment where aid = '${req.params.aid}'`
+  connection.query(sql, function (err, result) {
+    if (err) {
+      logger.error(err.message)
+      return;
+    }
+    //获取文章评论不打印日志
+    //logger.info(`getArt==>${req.params.aid}`)
+    res.writeHead(200, {'Content-Type': 'application/json;charset=utf-8'});//设置response编码为utf-8
+    res.end(JSON.stringify(result));
+  })
+})
 
 app.get('*', (req, res) => {
   const context = {url: req.url}
