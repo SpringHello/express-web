@@ -14,6 +14,9 @@ module.exports = merge(baseWebpackConfig, {
       name: "manifest",
       minChunks: Infinity
     }),
+    new webpack.DefinePlugin({
+      VUE_ENV: 'client',
+    }),
     // 此插件在输出目录中
     // 生成 `vue-ssr-client-manifest.json`。
     new VueSSRClientPlugin()

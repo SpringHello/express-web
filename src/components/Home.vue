@@ -29,13 +29,16 @@
 </template>
 
 <script>
+  import titleMixin from '../util/title-mixin'
   import timeago  from 'timeago.js'
   export default {
     name: 'home',
+    mixins: [titleMixin],
     asyncData ({store, route}) {
       // 触发 action 后，会返回 Promise
       return store.dispatch('articleList')
     },
+    title: '首页  -菜鸟前端',
     data () {
       return {}
     },

@@ -29,13 +29,16 @@
 </template>
 
 <script>
+  import titleMixin from '../util/title-mixin'
   import timeago  from 'timeago.js'
   export default {
     name: 'javascript',
+    mixins: [titleMixin],
     asyncData ({store, route}) {
       // 触发 action 后，会返回 Promise
       return store.dispatch('javaScriptList')
     },
+    title: 'JavaScript  -菜鸟前端',
     data () {
       return {}
     },

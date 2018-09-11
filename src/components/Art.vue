@@ -28,10 +28,15 @@
 
 <script>
   import axios from '../util/http'
+  import titleMixin from '../util/title-mixin'
   import ClipboardJS from 'clipboard'
   import Vue from 'vue'
   export default {
     name: 'art',
+    mixins: [titleMixin],
+    title(){
+      return this.$store.state.art.title + '  -菜鸟前端'
+    },
     asyncData ({store, route}) {
       // 触发 action 后，会返回 Promise
       return store.dispatch('art', {aid: route.params.aid})
