@@ -2,7 +2,9 @@
  * Created by yunrui001 on 2018-07-13.
  */
 var express = require('express')
+var bodyParser = require('body-parser')
 var path = require('path')
+var uuid = require('uuid')
 var app = express()
 var connection = require('./src/mysql').connection
 const templateHtml = require('fs').readFileSync(path.resolve(__dirname, './index.template.html'), 'utf-8')
@@ -33,6 +35,36 @@ function renderToString(context) {
   })
 }
 
+// 日期原型对象拓展
+Date.prototype.format = function (fmt) {
+  var o = {
+    'y+': this.getFullYear(),
+    'M+': this.getMonth() + 1,                 // 月份
+    'd+': this.getDate(),                    // 日
+    'h+': this.getHours(),                   // 小时
+    'm+': this.getMinutes(),                 // 分
+    's+': this.getSeconds(),                 // 秒
+    'q+': Math.floor((this.getMonth() + 3) / 3), // 季度
+    'S+': this.getMilliseconds()             // 毫秒
+  }
+  for (var k in o) {
+    if (new RegExp('(' + k + ')').test(fmt)) {
+      if (k == 'y+') {
+        fmt = fmt.replace(RegExp.$1, ('' + o[k]).substr(4 - RegExp.$1.length))
+      } else if (k == 'S+') {
+        var lens = RegExp.$1.length
+        lens = lens == 1 ? 3 : lens
+        fmt = fmt.replace(RegExp.$1, ('00' + o[k]).substr(('' + o[k]).length - 1, lens))
+      } else {
+        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)))
+      }
+    }
+  }
+  return fmt
+}
+
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
 app.use('/', express.static('./dist'))
 app.use('/', express.static('./assets'))
 
@@ -75,7 +107,7 @@ app.get('/api/getArt/:aid', (req, res, next) => {
 
 /*查询文章评论*/
 app.get('/api/getArtComment/:aid', (req, res, next) => {
-  let sql = `select * from Comment where aid = '${req.params.aid}'`
+  let sql = `select cid,pid,aid,user,content,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i') as time from Comment where aid = '${req.params.aid}' order by createTime`
   connection.query(sql, function (err, result) {
     if (err) {
       logger.error(err.message)
@@ -85,6 +117,30 @@ app.get('/api/getArtComment/:aid', (req, res, next) => {
     //logger.info(`getArt==>${req.params.aid}`)
     res.writeHead(200, {'Content-Type': 'application/json;charset=utf-8'});//设置response编码为utf-8
     res.end(JSON.stringify(result));
+  })
+})
+
+/*插入文章评论*/
+app.post('/api/publish', (req, res, next) => {
+  var cid = uuid.v4()
+  var dateTime = new Date().format('yyyy-MM-dd hh:mm:ss')
+  var sql = `insert into Comment values('${cid}','${req.body.pid}','${req.body.aid}','${req.body.userName}','${dateTime}','${req.body.content}')`
+  connection.query(sql, function (err, result) {
+    if (err) {
+      logger.error(err.message)
+      return;
+    }
+    //获取文章评论不打印日志
+    //logger.info(`getArt==>${req.params.aid}`)
+    res.writeHead(200, {'Content-Type': 'application/json;charset=utf-8'});//设置response编码为utf-8
+    res.end(JSON.stringify({
+      aid: req.body.aid,
+      cid: cid,
+      content: req.body.content,
+      pid: req.body.pid,
+      time: dateTime,
+      user: req.body.userName
+    }));
   })
 })
 
