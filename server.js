@@ -3,6 +3,7 @@
  */
 var express = require('express')
 var bodyParser = require('body-parser')
+//var serveStatic = require('serve-static')
 var path = require('path')
 var uuid = require('uuid')
 var app = express()
@@ -65,8 +66,28 @@ Date.prototype.format = function (fmt) {
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
-app.use('/', express.static('./dist'))
-app.use('/', express.static('./assets'))
+
+/*静态资源缓存策略*/
+app.use('/public', express.static(path.join(__dirname, 'dist'), {
+  //cacheControl: 'no-cache',
+  maxAge: '1y',
+  expires: '1y',
+  Etag: false,
+  lastModified: false
+}))
+app.use('/public', express.static(path.join(__dirname, 'assets'), {
+  //cacheControl: 'no-cache',
+  maxAge: '1y',
+  expires: '1y',
+  Etag: false,
+  lastModified: false
+}))
+function setCustomCacheControl(res, path) {
+  /*if (serveStatic.mime.lookup(path) === 'text/html') {
+   // Custom Cache-Control for HTML files
+   res.setHeader('Cache-Control', 'public, max-age=0')
+   }*/
+}
 
 /*查询文章列表*/
 app.get('/api/getArticleList/:type', (req, res, next) => {

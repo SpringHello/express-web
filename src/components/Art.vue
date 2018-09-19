@@ -1,10 +1,10 @@
+<script src="../../server.js"></script>
 <template>
-  mysql
   <main id="article">
     <div class="wrapper">
       <div class="content">
         <div class="art-content" v-html="art.content"></div>
-        <div class="comment">
+        <div class="i-comment">
           <div class="reply-wrapper">
             <input type="text" v-model="userName" @focus="warning=false">
             <span :class="{warning:warning}">用户名(必填)</span>
@@ -191,6 +191,13 @@
           this.warning = true
           return
         }
+        if (this.replyContent.trim() == '') {
+          this.$Message.success({
+            content: '请输入回复内容',
+            top: 50,
+            duration: 3
+          })
+        }
         axios.post('api/publish', {
           aid: this.$route.params.aid,
           pid: this.pid,
@@ -220,6 +227,14 @@
       newPublish(){
         if (this.userName.trim() == '') {
           this.warning = true
+          return
+        }
+        if (this.newContent.trim() == '') {
+          this.$Message.success({
+            content: '请输入回复内容',
+            top: 50,
+            duration: 3
+          })
           return
         }
         axios.post('api/publish', {
@@ -266,7 +281,7 @@
         padding: 2rem;
         box-sizing: border-box;
         margin-bottom: 10rem;
-        .comment {
+        .i-comment {
           padding: 1.5rem 0rem;
           margin: 0px 1rem;
           .comment-item {
