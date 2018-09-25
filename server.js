@@ -68,19 +68,19 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 /*静态资源缓存策略*/
-app.use('/public', express.static(path.join(__dirname, 'dist'), {
-  //cacheControl: 'no-cache',
-  maxAge: '1y',
-  expires: '1y',
+app.use(express.static(path.join(__dirname, 'dist'), {
+  //cacheControl: false,
+  //maxAge: '1y',
+  //expires: '1y',
   Etag: false,
-  lastModified: false
+  lastModified: true
 }))
-app.use('/public', express.static(path.join(__dirname, 'assets'), {
-  //cacheControl: 'no-cache',
-  maxAge: '1y',
+app.use(express.static(path.join(__dirname, 'assets'), {
+  //cacheControl: false,
+  //maxAge: '1y',
   expires: '1y',
   Etag: false,
-  lastModified: false
+  lastModified: true
 }))
 function setCustomCacheControl(res, path) {
   /*if (serveStatic.mime.lookup(path) === 'text/html') {

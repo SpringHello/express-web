@@ -1,9 +1,8 @@
-<script src="../../server.js"></script>
 <template>
   <main id="article">
     <div class="wrapper">
       <div class="content">
-        <div class="art-content" v-html="art.content"></div>
+        <div id="art-content" class="art-content" v-html="art.content"></div>
         <div class="i-comment">
           <div class="reply-wrapper">
             <input type="text" v-model="userName" @focus="warning=false">
@@ -113,31 +112,18 @@
         })
         e.clearSelection();
       })
-      // 初始化富文本编辑器
+      // 获取localStorage保存的用户名
       this.userName = localStorage.getItem('cainiaoqianduan') || ''
-      /*var toolbarOptions = [
-       ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-       ['blockquote', 'code-block'],
-
-       [{'header': 1}, {'header': 2}],               // custom button values
-       [{'list': 'ordered'}, {'list': 'bullet'}],
-       [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
-       [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
-       [{'direction': 'rtl'}],                         // text direction
-
-       [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
-       [{'header': [1, 2, 3, 4, 5, 6, false]}],
-
-       [{'color': []}, {'background': []}],          // dropdown with defaults from theme
-       [{'font': []}],
-       [{'align': []}],
-
-       ['clean']                                         // remove formatting button
-       ]
-       var editor = new Quill('#editor', {
-       modules: {toolbar: toolbarOptions},
-       theme: 'snow'
-       });*/
+      // 图片点击放大、缩小事件
+      console.log(document.getElementById('art-content').getElementsByTagName('img'))
+      Array.prototype.forEach.call(document.getElementById('art-content').getElementsByTagName('img'), dom => {
+        dom.addEventListener('click', function (event) {
+          console.log(event.target)
+        })
+      })
+      /*document.getElementById('art-content').getElementsByTagName('img').forEach(dom => dom.addEventListener('click', function (event) {
+       console.log(event.target)
+       }))*/
     },
     data () {
       return {

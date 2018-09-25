@@ -9,7 +9,7 @@ module.exports = {
   context: path.resolve(__dirname, '../'),
   output: {
     filename: '[name].js',
-    publicPath: '/public/',
+    publicPath: '/',
     path: resolve('dist')
   },
   externals: {},
