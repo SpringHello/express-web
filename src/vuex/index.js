@@ -11,13 +11,16 @@ Vue.use(Vuex)
 export default function createStore() {
   return new Vuex.Store({
     state: {
-      articleList: [],
+      // home页面javascript页面
+      articleResult: {},
+      // 文章详情页面
       art: {}
     },
     actions: {
       // home页面获取文章列表
-      articleList({commit}, route){
-        return axios.get('api/getArticleList/home').then(response => {
+      articleList({commit}, {route}){
+        var page = route.params.page || 1
+        return axios.get(`api/getArticleList/home/${page}`).then(response => {
           if (response.status == 200) {
             commit('setArticleList', response.data)
           }
@@ -26,8 +29,9 @@ export default function createStore() {
         })
       },
       // javascript页面获取文章列表
-      javaScriptList({commit}, route){
-        return axios.get('api/getArticleList/javascript').then(response => {
+      javaScriptList({commit}, {route}){
+        var page = route.params.page || 1
+        return axios.get(`api/getArticleList/javascript/${page}`).then(response => {
           if (response.status == 200) {
             commit('setArticleList', response.data)
           }
@@ -36,10 +40,10 @@ export default function createStore() {
         })
       },
       // article页面获取文章详情
-      art({commit}, {aid}){
+      art({commit}, {aid, route}){
         return axios.get(`api/getArt/${aid}`).then(response => {
           if (response.status == 200) {
-            commit('setArt', response.data)
+            commit('setArt', response.data[0])
           }
         }, response => {
           console.log(response)
@@ -47,11 +51,11 @@ export default function createStore() {
       }
     },
     mutations: {
-      setArticleList (state, articleList) {
-        articleList.forEach(article => {
+      setArticleList (state, result) {
+        result.articleList.forEach(article => {
           article.createTime = timeago().format(article.createTime * 1000, 'zh_CN')
         })
-        state.articleList = articleList
+        state.articleResult = result
       },
       setArt(state, art){
         state.art = art

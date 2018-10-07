@@ -2,18 +2,26 @@
  * Created by yunrui001 on 2018-07-13.
  */
 import Vue from 'vue'
-import App from './App'
+import Main from './Main'
 import createRouter from './router'
 import createStore from './vuex'
+
+import PagInation from './iview/Pagination'
+Vue.use(PagInation)
+
 import Message from './iview/Message'
+import ImgBox from './iview/ImgBox'
+
 Vue.prototype.$Message = Message
+Vue.prototype.$ImgBox = ImgBox
+
 export default function createApp() {
   const router = createRouter()
   const store = createStore()
   const app = new Vue({
     router,
     store,
-    render: h => h(App)
+    render: h => h(Main)
   })
   return {app, router, store}
 }

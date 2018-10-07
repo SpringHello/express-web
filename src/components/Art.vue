@@ -1,63 +1,74 @@
 <template>
-  <main id="article">
-    <div class="wrapper">
-      <div class="content">
-        <div id="art-content" class="art-content" v-html="art.content"></div>
-        <div class="i-comment">
-          <div class="reply-wrapper">
-            <input type="text" v-model="userName" @focus="warning=false">
-            <span :class="{warning:warning}">用户名(必填)</span>
-            <textarea rows="2" v-model="newContent"></textarea>
-            <button @click="newPublish">发表</button>
-          </div>
-
-          <div v-for="(comment,mainIndex) in commentList" :key="comment.cid" class="comment-item">
-            <div class="main-title">
-              <div class="item-header">
-                <span class="user">{{comment.user}}</span>
-                <span class="createTime margin">{{comment.time}}</span>
-              </div>
-              <div class="item-content">
-                <p>{{comment.content}}</p>
-                <span class="reply-btn margin" @click="_reply(comment,mainIndex)">回复</span>
-              </div>
-              <div v-show="comment.cid==showCommentCid" class="reply-wrapper">
-                <input type="text" v-model="userName" @focus="warning=false">
-                <span :class="{warning:warning}">用户名(必填)</span>
-                <textarea rows="2" v-model="replyContent" ref="main"></textarea>
-                <button @click="publish">发表</button>
-              </div>
+  <div class="pop-flex">
+    <main id="article">
+      <div class="wrapper">
+        <div class="content">
+          <div id="art-content" class="art-content" v-html="art.content"></div>
+          <div class="i-comment">
+            <div class="reply-wrapper">
+              <input type="text" v-model="userName" @focus="warning=false">
+              <span :class="{warning:warning}">用户名(必填)</span>
+              <textarea rows="2" v-model="newContent"></textarea>
+              <button @click="newPublish">发表</button>
             </div>
-            <div class="item-reply" v-if="comment.reply.length>0">
-              <div v-for="(reply,subIndex) in comment.reply" class="item-reply-wrapper">
+
+            <div v-for="(comment,mainIndex) in commentList" :key="comment.cid" class="comment-item">
+              <div class="main-title">
                 <div class="item-header">
-                  <span class="user">{{reply.user}}</span>
-                  <span class="createTime">{{reply.time}}</span>
+                  <span class="user">{{comment.user}}</span>
+                  <span class="createTime margin">{{comment.time}}</span>
                 </div>
                 <div class="item-content">
-                  <p>{{reply.content}}</p>
-                  <span class="reply-btn" @click="_reply(reply,mainIndex,subIndex)">回复</span>
+                  <p>{{comment.content}}</p>
+                  <span class="reply-btn margin" @click="_reply(comment,mainIndex)">回复</span>
                 </div>
-                <div v-show="reply.cid==showCommentCid" class="reply-wrapper">
+                <div v-show="comment.cid==showCommentCid" class="reply-wrapper">
                   <input type="text" v-model="userName" @focus="warning=false">
                   <span :class="{warning:warning}">用户名(必填)</span>
-                  <textarea rows="2" v-model="replyContent" ref="sub"></textarea>
+                  <textarea rows="2" v-model="replyContent" ref="main"></textarea>
                   <button @click="publish">发表</button>
                 </div>
               </div>
+              <div class="item-reply" v-if="comment.reply.length>0">
+                <div v-for="(reply,subIndex) in comment.reply" class="item-reply-wrapper">
+                  <div class="item-header">
+                    <span class="user">{{reply.user}}</span>
+                    <span class="createTime">{{reply.time}}</span>
+                  </div>
+                  <div class="item-content">
+                    <p>{{reply.content}}</p>
+                    <span class="reply-btn" @click="_reply(reply,mainIndex,subIndex)">回复</span>
+                  </div>
+                  <div v-show="reply.cid==showCommentCid" class="reply-wrapper">
+                    <input type="text" v-model="userName" @focus="warning=false">
+                    <span :class="{warning:warning}">用户名(必填)</span>
+                    <textarea rows="2" v-model="replyContent" ref="sub"></textarea>
+                    <button @click="publish">发表</button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <!-- Create the toolbar container -->
-          <!--<div id="toolbar">
-            <button class="ql-bold">Bold</button>
-            <button class="ql-italic">Italic</button>
-          </div>-->
-
-          <!-- Create the editor container -->
         </div>
       </div>
+    </main>
+    <div id="barWrapper">
+      <div class="sideBar">
+        <div class="ad" v-for="ad in ads">
+          <a :href="ad.url" target="_blank">
+            <img :src="ad.img">
+          </a>
+        </div>
+        <div class="menuList">
+          <ul>
+            <li v-for="(menu,index) in menuList"><a :href="`#${menu}`" :class="{active:index==i}" @click="i=index">{{menu}}</a></li>
+          </ul>
+        </div>
+      </div>
+
     </div>
-  </main>
+  </div>
+
 </template>
 
 <script>
@@ -69,15 +80,21 @@
     name: 'art',
     mixins: [titleMixin],
     title(){
-      return this.$store.state.art.title + '  -菜鸟前端'
+      return this.$store.state.art.title + '_菜鸟前端'
+    },
+    keywords(){
+      return this.$store.state.art.keywords
+    },
+    description(){
+      return this.$store.state.art.description
     },
     asyncData ({store, route}) {
       // 触发 action 后，会返回 Promise
-      return store.dispatch('art', {aid: route.params.aid})
+      return store.dispatch('art', {aid: route.params.aid, route})
     },
     mounted(){
       // 获取用户评论
-      axios.get(`api/getArtComment/${this.$route.params.aid}`).then(response => {
+      axios.get(`api/getArtComment/${this.art.aid}`).then(response => {
         // this.commentList = response.data
         var list = []
         response.data.forEach(comment => {
@@ -115,10 +132,10 @@
       // 获取localStorage保存的用户名
       this.userName = localStorage.getItem('cainiaoqianduan') || ''
       // 图片点击放大、缩小事件
-      console.log(document.getElementById('art-content').getElementsByTagName('img'))
+      let _vue = this
       Array.prototype.forEach.call(document.getElementById('art-content').getElementsByTagName('img'), dom => {
         dom.addEventListener('click', function (event) {
-          console.log(event.target)
+          _vue.$ImgBox(event.target)
         })
       })
       /*document.getElementById('art-content').getElementsByTagName('img').forEach(dom => dom.addEventListener('click', function (event) {
@@ -127,6 +144,14 @@
     },
     data () {
       return {
+        // 广告
+        ads: [
+          {
+            img: require('../assets/img/ad/15325704291220def5d47f7d903eb33c63e9bdaee523d.png'),
+            alt: '腾讯云',
+            url: 'https://cloud.tencent.com/act/campus?fromSource=gwzcw.1087969.1087969.1087969'
+          }
+        ],
         // 评论列表
         commentList: [],
         // 展示回复窗口的评论id
@@ -143,6 +168,8 @@
         warning: false,
         // 扁平数据转树形数据工具对象
         set: {},
+        // 导航选中index
+        i: -1
       }
     },
     methods: {
@@ -185,7 +212,7 @@
           })
         }
         axios.post('api/publish', {
-          aid: this.$route.params.aid,
+          aid: this.art.aid,
           pid: this.pid,
           userName: this.userName,
           content: this.replyContent
@@ -224,7 +251,7 @@
           return
         }
         axios.post('api/publish', {
-          aid: this.$route.params.aid,
+          aid: this.art.aid,
           pid: '0',
           userName: this.userName,
           content: this.newContent
@@ -249,6 +276,14 @@
     computed: {
       art(){
         return this.$store.state.art
+      },
+      // 文章导航
+      menuList(){
+        var exp = /<h2 id=".+">(.+)<\/h2>/gi, menuList = [], result
+        while ((result = exp.exec(this.$store.state.art.content)) != null) {
+          menuList.push(result[1].toLowerCase());
+        }
+        return menuList
       }
     },
   }
@@ -261,6 +296,7 @@
   #article {
     flex-grow: 1;
     width: 100%;
+    overflow-x: auto;
     .wrapper {
       .content {
         background-color: #fff;
@@ -274,7 +310,7 @@
             border: 1px dashed #ccc;
             margin-bottom: 30px;
             .main-title {
-              padding: 10px 20px 0px;
+              padding: 10px 20px 10px;
             }
             .item-header {
               .user {
@@ -362,9 +398,12 @@
 
   @media screen and (max-width: 960px) {
     #article {
-      .content {
-        .btn {
-          display: none;
+      .wrapper {
+        .content {
+          padding: 1rem;
+          .btn {
+            display: none;
+          }
         }
       }
     }

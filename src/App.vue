@@ -3,17 +3,17 @@
     <div class="main-header-box">
       <header id="header">
         <div id="container">
-          <router-link to="/home" class="logo"><img :src="logo"></router-link>
+          <a href="/home" class="logo"><img :src="logo"></a>
           <nav>
             <div>
               <span>首页</span>
             </div>
             <ul>
               <li>
-                <router-link to="/home">首页</router-link>
+                <a href="/home">首页</a>
               </li>
               <li>
-                <router-link to="/javascript">JavaScript教程</router-link>
+                <a href="/javascript">JavaScript教程</a>
               </li>
             </ul>
           </nav>
@@ -22,15 +22,6 @@
     </div>
     <div class="main-body-box">
       <router-view></router-view>
-      <div id="barWrapper">
-        <div class="sideBar">
-          <div class="ad" v-for="ad in ads">
-            <a :href="ad.url" target="_blank">
-              <img :src="ad.img">
-            </a>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -39,16 +30,10 @@
   import logo from './assets/img/logo.svg'
   import {throttle} from 'throttle-debounce';
   export default {
+    name: 'app',
     data(){
       return {
         logo,
-        ads: [
-          {
-            img: require('./assets/img/ad/15325704291220def5d47f7d903eb33c63e9bdaee523d.png'),
-            alt: '腾讯云',
-            url: 'https://cloud.tencent.com/act/campus?fromSource=gwzcw.1087969.1087969.1087969'
-          }
-        ]
       }
     },
     mounted(){
@@ -158,6 +143,26 @@
             }
           }
         }
+        .menuList {
+          ul {
+            font-size: 1.2rem;
+            line-height: 2rem;
+            font-weight: 600;
+            padding-left: 2rem;
+            list-style-type: decimal;
+            a {
+              color: #000;
+              &.active {
+                color: #007fff
+              }
+            }
+
+          }
+        }
+      }
+      .pop-flex {
+        display: flex;
+        width: 100%
       }
     }
   }
