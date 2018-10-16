@@ -3,6 +3,7 @@
  */
 import createApp from './createApp'
 import 'promise-polyfill/src/polyfill'
+import './assets/css/reset.css'
 var {app, router, store} = createApp()
 
 if (window.__INITIAL_STATE__) {

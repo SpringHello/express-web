@@ -109,8 +109,8 @@ if (cluster.isMaster) {
   /*查询文章列表*/
   app.get('/api/getArticleList/:type/:page', function (req, res, next) {
     var pageSize = 8
-    var start = (req.params.page - 1) * pageSize, end = pageSize * req.params.page
-    let sql = `select *,UNIX_TIMESTAMP(createTime) as createTime from Article where artType='${req.params.type}' limit ${start},${end};select count(*) as total from Article where artType='${req.params.type}'`
+    var start = (req.params.page - 1) * pageSize
+    let sql = `select *,UNIX_TIMESTAMP(createTime) as createTime from Article where artType='${req.params.type}' limit ${start},${pageSize};select count(*) as total from Article where artType='${req.params.type}'`
     connection.query({sql}, function (err, result) {
       if (err) {
         logger.error(err.message)
@@ -121,54 +121,7 @@ if (cluster.isMaster) {
       res.writeHead(200, {'Content-Type': 'application/json;charset=utf-8'});//设置response编码为utf-8
       res.end(JSON.stringify({articleList: result[0], total: result[1][0].total}));
     })
-    /*const articleCount = await new Promise(resolve => {
-     connection.query(count, function (err, result) {
-     if (err) {
-     logger.error(err.message)
-     return;
-     }
-     console.log(result)
-     //把搜索值输出
-     //logger.info('getArticleList')
-     resolve(result)
-     })
-     })
-     console.log(articleList)
-     console.log(articleCount)*/
   })
-
-  /*/!*查询某种文章数量*!/
-   app.get('/api/getArticleList/:type/:page', function (req, res, next) {
-   var pageSize = 2
-   var start = (req.params.page - 1) * pageSize, end = pageSize * req.params.page
-   let sql = `select *,UNIX_TIMESTAMP(createTime) as createTime from Article where artType='${req.params.type}' limit ${start},${end}`
-   let count = `select count(*) from Article where artType=${req.params.type}`
-   connection.query(sql, function (err, result) {
-   if (err) {
-   logger.error(err.message)
-   return;
-   }
-   //console.log(result)
-   //把搜索值输出
-   //logger.info('getArticleList')
-   res.writeHead(200, {'Content-Type': 'application/json;charset=utf-8'});//设置response编码为utf-8
-   res.end(JSON.stringify(result));
-   })
-   /!*const articleCount = await new Promise(resolve => {
-   connection.query(count, function (err, result) {
-   if (err) {
-   logger.error(err.message)
-   return;
-   }
-   console.log(result)
-   //把搜索值输出
-   //logger.info('getArticleList')
-   resolve(result)
-   })
-   })
-   console.log(articleList)
-   console.log(articleCount)*!/
-   })*/
 
   /*查询具体文章*/
   app.get('/api/getArt/:aid', (req, res, next) => {

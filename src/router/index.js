@@ -19,32 +19,27 @@ export default function createRouter() {
         component: App,
         children: [
           {
-            path: '',
-            name: App.name,
-            component: Home,
-          },
-          {
-            path: 'home',
-            //name: App.name,
-            component: Home,
-          },
-          {
-            path: 'home/:page',
+            path: '/',
             name: Home.name,
             component: Home,
           },
           {
-            path: 'javascript',
+            path: '/:page(\\d*)',
+            name: 'homePage',
+            component: Home,
+          },
+          {
+            path: '/javascript',
             name: JavaScript.name,
             component: JavaScript,
           },
           {
-            path: 'javascript/:page',
-            //name: JavaScript.name,
+            path: '/javascript/:page(\\d*)',
+            name: 'jsPage',
             component: JavaScript,
           },
           {
-            path: 'art/:aid',
+            path: '/art/:aid',
             name: Art.name,
             component: Art
           }

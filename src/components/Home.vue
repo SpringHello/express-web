@@ -4,30 +4,31 @@
       <div class="wrapper">
         <!--列表内容-->
         <div class="content">
-          <ul class="articleList">
-            <li class="item" v-for="art in articleList">
+          <div class="articleList">
+            <div class="item" v-for="art in articleList">
               <div class="content-box">
                 <div class="info-box">
                   <div class="title-row">
                     <router-link :to="`/art/${art.aid}`" target="_blank">{{art.title}}</router-link>
                   </div>
                   <div class="meta-row">
-                    <ul class="meta-list">
-                      <li>
-                        <span class="meta-type">{{art.type}}</span>
-                      </li>
-                      <li>
-                        <span class="meta-info">{{art.author}} · {{art.createTime}} · {{art.read}}次阅读</span>
-                      </li>
-                    </ul>
+                    <div class="meta-list">
+                      <span class="meta-type">{{art.type}}</span>
+                      <span class="meta-info">{{art.author}} · {{art.createTime}} · {{art.read}}次阅读</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </li>
-          </ul>
+            </div>
+            <!--<div class="item">
+              <a :href="ad.url" target="_blank" v-for="(ad,index) in bottomAds" :key="index">
+                <img :src="ad.img" style="width:100%">
+              </a>
+            </div>-->
+          </div>
           <!--分页-->
           <div class="pagination">
-            <pagination :total="total" :current="current" baseUrl="/home"></pagination>
+            <pagination :total="total" :current="current" baseUrl="/"></pagination>
           </div>
         </div>
       </div>
@@ -65,11 +66,15 @@
             alt: '腾讯云',
             url: 'https://cloud.tencent.com/act/campus?fromSource=gwzcw.1087969.1087969.1087969'
           }
+        ],
+        bottomAds: [
+          {
+            img: require('../assets/img/ad/bg2018090401.png'),
+            alt: '腾讯云',
+            url: 'https://cloud.tencent.com/act/campus?fromSource=gwzcw.1087969.1087969.1087969'
+          }
         ]
       }
-    },
-    created(){
-
     },
     methods: {},
     computed: {
@@ -81,6 +86,12 @@
       },
       current(){
         return Number(this.$route.params.page) || 1
+      }
+    },
+    watch: {
+      '$route' (to, from) {
+        this.$store.dispatch('articleList', {route: to})
+        // 对路由变化作出响应...
       }
     }
   }

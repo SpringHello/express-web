@@ -1,4 +1,8 @@
 'use strict'
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+// CSS 提取应该只用于生产环境
+// 这样我们在开发过程中仍然可以热重载
+
 const path = require('path')
 
 function resolve(dir) {
@@ -8,8 +12,8 @@ function resolve(dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   output: {
-    filename: '[name].js',
-    publicPath: '/',
+    filename: '[name].[chunkhash].js',
+    publicPath: 'http://192.168.3.124:3000/',
     path: resolve('dist')
   },
   externals: {},
@@ -26,21 +30,27 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
+        options: {
+          extractCSS: true
+        }
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src')]
+        include: [resolve('src')],
       },
       {
         test: /\.css$/,
-        use: ['vue-style-loader', 'css-loader']
+        use: ExtractTextPlugin.extract({
+          use: 'css-loader',
+          fallback: 'vue-style-loader'
+        })
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 1024 * 8, //8M以下使用base64
+          limit: 1024 * 1, //8M以下使用base64
           name: 'img/[name].[ext]'
         }
       },

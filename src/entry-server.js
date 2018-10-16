@@ -2,7 +2,6 @@
  * Created by yunrui001 on 2018-07-13.
  */
 import createApp from './createApp'
-import './assets/css/reset.css'
 export default context => {
   // 因为有可能会是异步路由钩子函数或组件，所以我们将返回一个 Promise，
   // 以便服务器能够等待所有的内容在渲染前，

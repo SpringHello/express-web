@@ -3,19 +3,13 @@
     <div class="main-header-box">
       <header id="header">
         <div id="container">
-          <a href="/home" class="logo"><img :src="logo"></a>
+          <router-link to="/" class="logo"><img :src="logo"></router-link>
           <nav>
             <div>
-              <span>首页</span>
+              <router-link to="/" :class="{active:$route.name=='home'||$route.name=='homePage'}">首页</router-link>
+              <router-link to="/javascript" :class="{active:$route.name=='js'||$route.name=='jsPage'}">JavaScript教程
+              </router-link>
             </div>
-            <ul>
-              <li>
-                <a href="/home">首页</a>
-              </li>
-              <li>
-                <a href="/javascript">JavaScript教程</a>
-              </li>
-            </ul>
           </nav>
         </div>
       </header>
@@ -86,27 +80,21 @@
           nav {
             height: 100%;
             > div {
-              display: none;
-            }
-            ul {
               height: 100%;
               display: flex;
               align-items: center;
-              li {
+              a {
                 height: 100%;
-                a {
-                  height: 100%;
-                  color: #71777c;
-                  line-height: 5rem;
-                  padding: 0px 1.6rem;
-                  font-size: 1.33rem;
-                  display: inline-block;
-                  &:hover {
-                    color: #007fff
-                  }
-                  &.router-link-active {
-                    color: #007fff
-                  }
+                color: #71777c;
+                line-height: 5rem;
+                padding: 0px 1.6rem;
+                font-size: 1.33rem;
+                display: inline-block;
+                &:hover {
+                  color: #007fff
+                }
+                &.active {
+                  color: #007fff
                 }
               }
             }
@@ -144,6 +132,11 @@
           }
         }
         .menuList {
+          background-color: #fff;
+          padding: 1rem;
+          p {
+            font-size: 1.2rem;
+          }
           ul {
             font-size: 1.2rem;
             line-height: 2rem;

@@ -1,9 +1,11 @@
 <template>
   <div class="pagination-wrapper">
-    <a v-if="current-1>0" :href="`${baseUrl}/${current-1}`">上一页</a>
+    <router-link v-if="current-1>0" :to="`${baseUrl}${current==2?'':current-1}`">上一页</router-link>
     <span v-else>上一页</span>
-    <a v-for="i in page" :key="i" :class="{active:i==current}" :href="`${baseUrl}/${i}`">{{i}}</a>
-    <a v-if="current<page" :href="`${baseUrl}/${current+1}`">下一页</a>
+    <router-link :to="baseUrl">1</router-link>
+    <router-link v-for="i in page" v-if="i>1" :key="i" :to="`${baseUrl}${i}`">{{i}}
+    </router-link>
+    <router-link v-if="current<page" :to="`${baseUrl}${current+1}`">下一页</router-link>
     <span v-else>下一页</span>
   </div>
 </template>
@@ -48,7 +50,7 @@
     > span {
       cursor: not-allowed;
     }
-    .active {
+    .router-link-exact-active {
       background-color: #007fff;
       color: #fff;
       border: 1px solid #007fff;

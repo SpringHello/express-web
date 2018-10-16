@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 const baseWebpackConfig = require('./webpack.base.conf')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = merge(baseWebpackConfig, {
   entry: './src/entry-client.js',
@@ -19,7 +20,8 @@ module.exports = merge(baseWebpackConfig, {
     }),
     // 此插件在输出目录中
     // 生成 `vue-ssr-client-manifest.json`。
-    new VueSSRClientPlugin()
+    new VueSSRClientPlugin(),
+    new ExtractTextPlugin({filename: 'common.[chunkhash].css'})
   ]
 })
 

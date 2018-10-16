@@ -4,6 +4,13 @@
       <div class="wrapper">
         <div class="content">
           <div id="art-content" class="art-content" v-html="art.content"></div>
+          <!--<div class="bottom-ads">
+            <div class="ad" v-for="ad in bottomAds">
+              <a :href="ad.url" target="_blank">
+                <img :src="ad.img" style="width:100%;">
+              </a>
+            </div>
+          </div>-->
           <div class="i-comment">
             <div class="reply-wrapper">
               <input type="text" v-model="userName" @focus="warning=false">
@@ -11,7 +18,6 @@
               <textarea rows="2" v-model="newContent"></textarea>
               <button @click="newPublish">发表</button>
             </div>
-
             <div v-for="(comment,mainIndex) in commentList" :key="comment.cid" class="comment-item">
               <div class="main-title">
                 <div class="item-header">
@@ -54,14 +60,16 @@
     </main>
     <div id="barWrapper">
       <div class="sideBar">
-        <div class="ad" v-for="ad in ads">
+        <div class="ad" v-for="ad in barAds">
           <a :href="ad.url" target="_blank">
             <img :src="ad.img">
           </a>
         </div>
         <div class="menuList">
+          <p>目录</p>
           <ul>
-            <li v-for="(menu,index) in menuList"><a :href="`#${menu}`" :class="{active:index==i}" @click="i=index">{{menu}}</a></li>
+            <li v-for="(menu,index) in menuList"><a :href="`#${menu}`" :class="{active:index==i}" @click="i=index">{{menu}}</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -138,19 +146,41 @@
           _vue.$ImgBox(event.target)
         })
       })
-      /*document.getElementById('art-content').getElementsByTagName('img').forEach(dom => dom.addEventListener('click', function (event) {
-       console.log(event.target)
-       }))*/
+      var h2List = document.getElementById('art-content').getElementsByTagName('h2')
+      var list = []
+      Array.prototype.forEach.call(h2List, h => {
+        list.push(h.offsetTop - 60)
+      })
+      console.log(list)
+      window.addEventListener('scroll', event => {
+        for (let i = list.length - 1; i > -1; i--) {
+          console.log(window.scrollY)
+          if (window.scrollY > list[i]) {
+            console.log('=====================')
+            console.log(i)
+            this.i = i
+            break
+          }
+        }
+      })
     },
     data () {
       return {
-        // 广告
-        ads: [
+        // 侧边广告
+        barAds: [
           {
             img: require('../assets/img/ad/15325704291220def5d47f7d903eb33c63e9bdaee523d.png'),
             alt: '腾讯云',
             url: 'https://cloud.tencent.com/act/campus?fromSource=gwzcw.1087969.1087969.1087969'
           }
+        ],
+        // 文章底部广告
+        bottomAds: [
+          /*{
+           img: require('../assets/img/ad/timg.jpg'),
+           alt: '腾讯云',
+           url: 'https://cloud.tencent.com/act/campus?fromSource=gwzcw.1087969.1087969.1087969'
+           }*/
         ],
         // 评论列表
         commentList: [],
@@ -169,7 +199,7 @@
         // 扁平数据转树形数据工具对象
         set: {},
         // 导航选中index
-        i: -1
+        i: 0
       }
     },
     methods: {
@@ -389,7 +419,7 @@
           }
         }
         > div {
-          line-height: 1.5;
+          line-height: 1.75;
         }
 
       }
