@@ -6,7 +6,7 @@ var pool = mysql.createPool({
   connectionLimit: 100,
   host: 'localhost',
   user: 'root',
-  password: 'root',
+  password: 'yrxt@123',
   database: 'express-web',
   multipleStatements: true
 });

@@ -84,6 +84,7 @@
   import titleMixin from '../util/title-mixin'
   import ClipboardJS from 'clipboard'
   import Vue from 'vue'
+  import {throttle} from 'throttle-debounce'
   export default {
     name: 'art',
     mixins: [titleMixin],
@@ -152,17 +153,14 @@
         list.push(h.offsetTop - 60)
       })
       console.log(list)
-      window.addEventListener('scroll', event => {
+      window.addEventListener('scroll', throttle(100, event => {
         for (let i = list.length - 1; i > -1; i--) {
-          console.log(window.scrollY)
           if (window.scrollY > list[i]) {
-            console.log('=====================')
-            console.log(i)
             this.i = i
             break
           }
         }
-      })
+      }))
     },
     data () {
       return {
