@@ -7,7 +7,7 @@ export default context => {
   // 以便服务器能够等待所有的内容在渲染前，
   // 就已经准备就绪。
   return new Promise((resolve, reject) => {
-    const {app, router, store} = createApp()
+    const { app, router, store } = createApp()
 
     // 设置服务器端 router 的位置
     router.push(context.url)
@@ -17,9 +17,8 @@ export default context => {
       const matchedComponents = router.getMatchedComponents()
       // 匹配不到的路由，执行 reject 函数，并返回 404
       if (!matchedComponents.length) {
-        return reject({code: 404})
+        return reject({ code: 404 })
       }
-
       Promise.all(matchedComponents.map(Component => {
         if (Component.asyncData) {
           return Component.asyncData({
@@ -36,7 +35,9 @@ export default context => {
         context.state = store.state
 
         resolve(app)
-      }).catch(reject)
+      }).catch(e => {
+        console.log(e)
+      })
 
       // Promise 应该 resolve 应用程序实例，以便它可以渲染
       //resolve(app)

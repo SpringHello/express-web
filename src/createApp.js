@@ -23,5 +23,5 @@ export default function createApp() {
     store,
     render: h => h(Main)
   })
-  return {app, router, store}
+  return { app, router, store }
 }

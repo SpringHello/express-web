@@ -6,7 +6,7 @@
 function getTitle(vm) {
   // 组件可以提供一个 `title` 选项
   // 此选项可以是一个字符串或函数
-  const {title, keywords, description} = vm.$options
+  const { title, keywords, description } = vm.$options
   if (title) {
     return {
       title: typeof title === 'function'
@@ -23,8 +23,8 @@ function getTitle(vm) {
 }
 
 const serverTitleMixin = {
-  created () {
-    const {title, keywords, description} = getTitle(this)
+  created() {
+    const { title, keywords, description } = getTitle(this)
     if (title) {
       this.$ssrContext.title = title
       this.$ssrContext.keywords = keywords
@@ -34,8 +34,8 @@ const serverTitleMixin = {
 }
 
 const clientTitleMixin = {
-  mounted () {
-    const {title} = getTitle(this)
+  mounted() {
+    const { title } = getTitle(this)
     if (title) {
       document.title = title
     }
