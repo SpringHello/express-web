@@ -39,9 +39,9 @@ module.exports = merge(baseConfig, {
   // 默认文件名为 `vue-ssr-server-bundle.json`
   plugins: [
     new webpack.DefinePlugin({
-      VUE_ENV: 'server',
+      VUE_ENV: '"server"',
     }),
     new VueSSRServerPlugin(),
-    new ExtractTextPlugin({filename: 'common.[chunkhash].css'})
+
   ]
 })

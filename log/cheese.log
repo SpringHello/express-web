@@ -933,3 +933,19 @@
 [2018-09-08T15:31:38.867] [INFO] cheese - getArt==>44a68528-2549-4754-9e47-2791d09883ff
 [2018-09-08T15:32:04.900] [INFO] cheese - getArt==>44a68528-2549-4754-9e47-2791d09883ff
 [2018-09-08T15:32:30.233] [INFO] cheese - getArt==>44a68528-2549-4754-9e47-2791d09883ff
+[2020-09-20T23:45:07.792] [ERROR] cheese - connect ECONNREFUSED 127.0.0.1:3306
+[2020-09-20T23:47:23.974] [ERROR] cheese - connect ECONNREFUSED 127.0.0.1:3306
+[2020-09-20T23:47:33.436] [ERROR] cheese - connect ECONNREFUSED 127.0.0.1:3306
+[2020-09-20T23:48:07.997] [ERROR] cheese - connect ECONNREFUSED 127.0.0.1:3306
+[2020-09-20T23:50:41.705] [ERROR] cheese - connect ECONNREFUSED 127.0.0.1:3306
+[2020-09-20T23:52:32.687] [ERROR] cheese - connect ECONNREFUSED 127.0.0.1:3306
+[2020-09-20T23:54:06.850] [ERROR] cheese - connect ECONNREFUSED 127.0.0.1:3306
+[2020-09-23T21:46:45.873] [ERROR] cheese - ER_HOST_NOT_PRIVILEGED: Host 'DESKTOP-KK4UU3U' is not allowed to connect to this MySQL server
+[2020-09-23T21:47:00.660] [ERROR] cheese - ER_HOST_NOT_PRIVILEGED: Host 'DESKTOP-KK4UU3U' is not allowed to connect to this MySQL server
+[2020-09-23T21:47:04.290] [ERROR] cheese - ER_HOST_NOT_PRIVILEGED: Host 'DESKTOP-KK4UU3U' is not allowed to connect to this MySQL server
+[2020-09-23T21:47:31.370] [ERROR] cheese - ER_HOST_NOT_PRIVILEGED: Host 'DESKTOP-KK4UU3U' is not allowed to connect to this MySQL server
+[2020-09-23T22:02:46.473] [ERROR] cheese - ER_HOST_NOT_PRIVILEGED: Host 'DESKTOP-KK4UU3U' is not allowed to connect to this MySQL server
+[2020-09-23T22:03:34.624] [ERROR] cheese - ER_HOST_NOT_PRIVILEGED: Host 'DESKTOP-KK4UU3U' is not allowed to connect to this MySQL server
+[2020-09-23T22:03:49.638] [ERROR] cheese - ER_HOST_NOT_PRIVILEGED: Host 'DESKTOP-KK4UU3U' is not allowed to connect to this MySQL server
+[2020-09-23T22:05:24.815] [ERROR] cheese - ER_HOST_NOT_PRIVILEGED: Host 'DESKTOP-KK4UU3U' is not allowed to connect to this MySQL server
+[2020-09-23T22:12:48.434] [ERROR] cheese - ER_HOST_NOT_PRIVILEGED: Host 'DESKTOP-KK4UU3U' is not allowed to connect to this MySQL server

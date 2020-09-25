@@ -14,15 +14,15 @@ var uuid = require('uuid')
 // var app = express()
 var connection = require('./src/mysql').pool
 const templateHtml = require('fs').readFileSync(path.resolve(__dirname, './index.template.html'), 'utf-8')
-const {createBundleRenderer} = require('vue-server-renderer')
+const { createBundleRenderer } = require('vue-server-renderer')
 const serverBundle = require(`./dist/vue-ssr-server-bundle.json`)
 const clientManifest = require(`./dist/vue-ssr-client-manifest.json`)
 
 //==================log4js日志配置====================================================
 const log4js = require('log4js');
 log4js.configure({
-  appenders: {cheese: {type: 'file', filename: 'log/cheese.log'}},
-  categories: {default: {appenders: ['cheese'], level: 'info'}}
+  appenders: { cheese: { type: 'file', filename: 'log/cheese.log' } },
+  categories: { default: { appenders: ['cheese'], level: 'info' } }
 });
 const logger = log4js.getLogger('cheese');
 //=====================================================================================
@@ -69,8 +69,8 @@ Date.prototype.format = function (fmt) {
   return fmt
 }
 
-
-if (cluster.isMaster) {
+if (false) {
+  //if (cluster.isMaster) {
   for (var i = 0; i < numCPUs; i++) {
     cluster.fork();
   }
@@ -81,7 +81,7 @@ if (cluster.isMaster) {
 
 } else {
   var app = express()
-  app.use(bodyParser.urlencoded({extended: false}))
+  app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
 
   /*静态资源缓存策略*/
@@ -99,29 +99,57 @@ if (cluster.isMaster) {
     Etag: false,
     lastModified: true
   }))
-  function setCustomCacheControl(res, path) {
-    /*if (serveStatic.mime.lookup(path) === 'text/html') {
-     // Custom Cache-Control for HTML files
-     res.setHeader('Cache-Control', 'public, max-age=0')
-     }*/
-  }
 
-  /*查询文章列表*/
-  app.get('/api/getArticleList/:type/:page', function (req, res, next) {
-    var pageSize = 8
-    var start = (req.params.page - 1) * pageSize
-    let sql = `select *,UNIX_TIMESTAMP(createTime) as createTime from Article where artType='${req.params.type}' limit ${start},${pageSize};select count(*) as total from Article where artType='${req.params.type}'`
-    connection.query({sql}, function (err, result) {
+  //设置跨域访问
+  app.all('*', (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+    //res.header("X-Powered-By", ' 3.2.1')
+    //res.header("Content-Type", "application/json;charset=utf-8");
+    next();
+  });
+  /*查询某类文章目录*/
+  app.post('/api/articleCatalog', function (req, res, next) {
+    let sql = `select * from articlecatalog where articleType='${req.body.articleType}'`
+
+    connection.query({ sql }, function (err, result) {
       if (err) {
+        console.log('error===========')
         logger.error(err.message)
         return;
       }
       //把搜索值输出
       //logger.info('getArticleList')
-      res.writeHead(200, {'Content-Type': 'application/json;charset=utf-8'});//设置response编码为utf-8
-      res.end(JSON.stringify({articleList: result[0], total: result[1][0].total}));
+      res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' });//设置response编码为utf-8
+      res.end(JSON.stringify(result));
     })
   })
+  /*查询一篇文章*/
+  app.post('/api/articleContent', function (req, res, next) {
+    let sql = `select * from article where articleUrl='${req.body.articleUrl}'`
+
+    connection.query({ sql }, function (err, result) {
+      if (err) {
+        console.log('error===========')
+        logger.error(err.message)
+        return;
+      }
+      //把搜索值输出
+      //logger.info('getArticleList')
+      if (result[0]) {
+        res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' });//设置response编码为utf-8
+        res.end(JSON.stringify(result[0].articleContent));
+      } else {
+        res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' });//设置response编码为utf-8
+        res.end(JSON.stringify('沒找到文章'));
+        //res.end(JSON.stringify());
+      }
+
+    })
+  })
+
+
 
   /*查询具体文章*/
   app.get('/api/getArt/:aid', (req, res, next) => {
@@ -137,7 +165,7 @@ if (cluster.isMaster) {
         // 随机查询一条数据
         sql = 'select * from Content order by rand() LIMIT 1'
         connection.query(sql, function (err, result) {
-          res.writeHead(200, {'Content-Type': 'application/json;charset=utf-8'});//设置response编码为utf-8
+          res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' });//设置response编码为utf-8
           res.end(JSON.stringify(result));
         })
         return
@@ -145,7 +173,7 @@ if (cluster.isMaster) {
       //console.log('继续答应了')
       //把搜索值输出
       logger.info(`getArt==>${req.params.aid}`)
-      res.writeHead(200, {'Content-Type': 'application/json;charset=utf-8'});//设置response编码为utf-8
+      res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' });//设置response编码为utf-8
       res.end(JSON.stringify(result));
       connection.query(updateSql, function (err, result) {
         if (err) {
@@ -166,7 +194,7 @@ if (cluster.isMaster) {
       }
       //获取文章评论不打印日志
       //logger.info(`getArt==>${req.params.aid}`)
-      res.writeHead(200, {'Content-Type': 'application/json;charset=utf-8'});//设置response编码为utf-8
+      res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' });//设置response编码为utf-8
       res.end(JSON.stringify(result));
     })
   })
@@ -183,7 +211,7 @@ if (cluster.isMaster) {
       }
       //获取文章评论不打印日志
       //logger.info(`getArt==>${req.params.aid}`)
-      res.writeHead(200, {'Content-Type': 'application/json;charset=utf-8'});//设置response编码为utf-8
+      res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' });//设置response编码为utf-8
       res.end(JSON.stringify({
         aid: req.body.aid,
         cid: cid,
@@ -196,7 +224,7 @@ if (cluster.isMaster) {
   })
 
   app.get('*', (req, res) => {
-    const context = {url: req.url}
+    const context = { url: req.url }
     renderToString(context).then(resopnse => {
       res.send(resopnse)
     }, error => {

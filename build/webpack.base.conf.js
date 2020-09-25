@@ -13,7 +13,7 @@ module.exports = {
   context: path.resolve(__dirname, '../'),
   output: {
     filename: '[name].[chunkhash].js',
-    publicPath: 'http://192.168.3.124:3000/',
+    publicPath: '/',
     path: resolve('dist')
   },
   externals: {},
@@ -64,5 +64,8 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new ExtractTextPlugin({ filename: 'common.[chunkhash].css' })
+  ]
 }
