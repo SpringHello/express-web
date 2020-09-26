@@ -3,7 +3,7 @@
  */
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://192.168.1.101:3000/'
+//axios.defaults.baseURL = 'http://192.168.1.101/'
 axios.defaults.withCredentials = true
 axios.defaults.crossDomain = true
 
