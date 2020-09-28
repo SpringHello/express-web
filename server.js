@@ -139,89 +139,16 @@ if (false) {
       //logger.info('getArticleList')
       if (result[0]) {
         res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' });//设置response编码为utf-8
-        res.end(JSON.stringify(result[0].articleContent));
+        res.end(JSON.stringify(result[0]));
       } else {
         res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' });//设置response编码为utf-8
-        res.end(JSON.stringify('沒找到文章'));
+        res.end(JSON.stringify({ articleContent: '没找到文章', title: '没找到文章' }));
         //res.end(JSON.stringify());
       }
 
     })
   })
 
-
-
-  /*查询具体文章*/
-  app.get('/api/getArt/:aid', (req, res, next) => {
-    let sql = `select * from Content where aid = '${req.params.aid}'`
-    let updateSql = `update article set article.read = article.read + 1 where aid = '${req.params.aid}'`
-    connection.query(sql, function (err, result) {
-      if (err) {
-        logger.error(err.message)
-        return;
-      }
-      // 没有查询到相关文章
-      if (result.length == 0) {
-        // 随机查询一条数据
-        sql = 'select * from Content order by rand() LIMIT 1'
-        connection.query(sql, function (err, result) {
-          res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' });//设置response编码为utf-8
-          res.end(JSON.stringify(result));
-        })
-        return
-      }
-      //console.log('继续答应了')
-      //把搜索值输出
-      logger.info(`getArt==>${req.params.aid}`)
-      res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' });//设置response编码为utf-8
-      res.end(JSON.stringify(result));
-      connection.query(updateSql, function (err, result) {
-        if (err) {
-          logger.error(err.message)
-          return;
-        }
-      })
-    })
-  })
-
-  /*查询文章评论*/
-  app.get('/api/getArtComment/:aid', (req, res, next) => {
-    let sql = `select cid,pid,aid,user,content,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i') as time from Comment where aid = '${req.params.aid}' order by createTime`
-    connection.query(sql, function (err, result) {
-      if (err) {
-        logger.error(err.message)
-        return;
-      }
-      //获取文章评论不打印日志
-      //logger.info(`getArt==>${req.params.aid}`)
-      res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' });//设置response编码为utf-8
-      res.end(JSON.stringify(result));
-    })
-  })
-
-  /*插入文章评论*/
-  app.post('/api/publish', (req, res, next) => {
-    var cid = uuid.v4()
-    var dateTime = new Date().format('yyyy-MM-dd hh:mm:ss')
-    var sql = `insert into Comment values('${cid}','${req.body.pid}','${req.body.aid}','${req.body.userName}','${dateTime}','${req.body.content}')`
-    connection.query(sql, function (err, result) {
-      if (err) {
-        logger.error(err.message)
-        return;
-      }
-      //获取文章评论不打印日志
-      //logger.info(`getArt==>${req.params.aid}`)
-      res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' });//设置response编码为utf-8
-      res.end(JSON.stringify({
-        aid: req.body.aid,
-        cid: cid,
-        content: req.body.content,
-        pid: req.body.pid,
-        time: dateTime,
-        user: req.body.userName
-      }));
-    })
-  })
 
   app.get('*', (req, res) => {
     const context = { url: req.url }

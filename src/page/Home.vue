@@ -2,7 +2,7 @@
   <main id="home">
     <div class="wrapper">
       <div class="left">
-        <div class="menu-wrapper">
+        <nav class="menu-wrapper">
           <ul>
             <li
               v-for="catalog in articleCatalog"
@@ -15,10 +15,10 @@
               }}</router-link>
             </li>
           </ul>
-        </div>
+        </nav>
       </div>
       <div class="center">
-        <div class="center-wrapper" v-html="articleContent"></div>
+        <article class="center-wrapper" v-html="articleContent"></article>
       </div>
       <div class="right"></div>
     </div>
@@ -31,10 +31,15 @@ import api from "@/api/api";
 export default {
   name: "home",
   mixins: [titleMixin],
-  title: "菜鸟前端_一个帮助前端入门、成长的小站",
-  keywords: "Javascript、Vue.js、前端开发、菜鸟前端",
-  description:
-    "菜鸟前端是专门为前端开发人员打造的学习平台，提供javascript入门教程、前端技术分享等内容",
+  title() {
+    return this.title;
+  },
+  keywords() {
+    return this.keywords;
+  },
+  description() {
+    return this.description;
+  },
   data() {
     return {};
   },
@@ -53,7 +58,11 @@ export default {
           articleUrl: route.path,
         })
         .then((response) => {
-          store.state.articleContent = response.data;
+          store.state.articleContent = response.data.articleContent;
+          store.state.title = response.data.title;
+          store.state.keywords = response.data.keywords;
+          store.state.description = response.data.description;
+          //store.state.articleTitle = response.data.articleTitle;
         }),
     ]);
     //api.main({}).then((response) => {});
@@ -75,6 +84,15 @@ export default {
     },
     articleContent() {
       return this.$store.state.articleContent;
+    },
+    title() {
+      return this.$store.state.title;
+    },
+    keywords() {
+      return this.$store.state.keywords;
+    },
+    description() {
+      return this.$store.state.description;
     },
   },
   beforeRouteUpdate(to, from, next) {
