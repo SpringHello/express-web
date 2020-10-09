@@ -15,6 +15,15 @@
     <div class="main-body-box">
       <router-view></router-view>
     </div>
+    <div class="main-foot-box">
+      <span>Copyright © 2020-2020</span>
+      <a target="_blank" href="http://www.jrookie.com">编程语言网</a>
+      <a target="_blank" href="http://www.jrookie.com">jrookie.com</a>
+      All Rights Reserved. 备案号：
+      <a target="_blank" rel="nofollow" href="https://beian.miit.gov.cn/"
+        >渝ICP备2020011904号</a
+      >
+    </div>
   </div>
 </template>
 
@@ -67,6 +76,15 @@ export default {
     margin-top: 1rem;
     display: flex;
     align-items: flex-start;
+  }
+  .main-foot-box {
+    background: #fff;
+    text-align: center;
+    color: #999;
+    padding: 20px 0px;
+    a {
+      color: #999;
+    }
   }
 }
 </style>

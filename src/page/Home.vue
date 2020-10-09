@@ -59,7 +59,7 @@ export default {
         })
         .then((response) => {
           store.state.articleContent = response.data.articleContent;
-          store.state.title = response.data.title;
+          store.state.title = response.data.title + " | 编程语言网";
           store.state.keywords = response.data.keywords;
           store.state.description = response.data.description;
           //store.state.articleTitle = response.data.articleTitle;
