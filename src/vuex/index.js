@@ -9,7 +9,12 @@ Vue.use(Vuex)
 export default function createStore() {
   return new Vuex.Store({
     state: {
-
+      siteMap: [],
+      articleCatalog: [],
+      articleContent: '',
+      title: '',
+      keywords: '',
+      description: ''
     },
     actions: {
 

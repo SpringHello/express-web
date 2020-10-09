@@ -82,7 +82,7 @@ export default {
     background: #fff;
     text-align: center;
     color: #999;
-    padding: 1rem 0rem;
+    padding: 2rem 0rem;
     a {
       color: #999;
     }

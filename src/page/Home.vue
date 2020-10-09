@@ -95,6 +95,13 @@ export default {
       return this.$store.state.description;
     },
   },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      if (vm.$options.asyncData) {
+        vm.$options.asyncData({ store: vm.$store, route: to });
+      }
+    });
+  },
   beforeRouteUpdate(to, from, next) {
     let { asyncData } = this.$options;
     if (asyncData) {
@@ -112,7 +119,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style rel="stylesheet/less" lang="less">
+<style rel="stylesheet/less" lang="less" scoped>
 @import "../assets/css/variables.less";
 @media handheld, only screen and (max-width: 960px) {
   #home {

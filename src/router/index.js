@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import App from '@/App'
 
 import Home from '@/page/Home'
+import Sitemap from '@/page/Sitemap'
 
 
 
@@ -22,6 +23,11 @@ export default function createRouter() {
             path: '/',
             name: 'main',
             redirect: '/c/01.html',
+          },
+          {
+            path: '/sitemap',
+            name: 'sitemap',
+            component: Sitemap,
           },
           {
             path: '/*',
