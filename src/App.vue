@@ -72,6 +72,7 @@ export default {
     }
   }
   .main-body-box {
+    margin-bottom: 1rem;
     width: 100%;
     margin-top: 1rem;
     display: flex;
@@ -81,7 +82,7 @@ export default {
     background: #fff;
     text-align: center;
     color: #999;
-    padding: 20px 0px;
+    padding: 1rem 0rem;
     a {
       color: #999;
     }
