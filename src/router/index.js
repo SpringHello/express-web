@@ -6,6 +6,7 @@ import App from '@/App'
 import Home from '@/page/Home'
 import Sitemap from '@/page/Sitemap'
 
+import Carousel from '@/page/vueDemo/Carousel'
 
 
 Vue.use(Router)
@@ -28,6 +29,11 @@ export default function createRouter() {
             path: '/sitemap',
             name: 'sitemap',
             component: Sitemap,
+          },
+          {
+            path: '/vueDemo/01.html',
+            name: 'Carousel',
+            component: Carousel,
           },
           {
             path: '/*',
