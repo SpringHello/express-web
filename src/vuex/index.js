@@ -14,7 +14,7 @@ export default function createStore() {
       articleContent: '',
       title: '',
       keywords: '',
-      description: ''
+      description: '',
     },
     actions: {
 

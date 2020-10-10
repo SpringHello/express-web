@@ -167,12 +167,17 @@ if (false) {
 
   app.get('*', (req, res) => {
     const context = { url: req.url }
+
     renderToString(context).then(resopnse => {
       res.send(resopnse)
     }, error => {
+
       if (error.code == 404) {
         res.status(404)
         res.send('404')
+      } else {
+        res.status(500)
+        res.send('500')
       }
     })
   })

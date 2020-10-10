@@ -17,9 +17,20 @@
 </template>
 
 <script>
+import titleMixin from "@/util/title-mixin";
 import Carousel from "@/components/Carousel/Carousel.vue";
 export default {
   name: "vueDemo01",
+  mixins: [titleMixin],
+  title() {
+    return "基于Vue、CSS3的翻滚轮播（跑马灯）组件 | 编程语言网";
+  },
+  keywords() {
+    return "翻滚轮播、跑马灯";
+  },
+  description() {
+    return "翻滚轮播、跑马灯";
+  },
   components: {
     Carousel,
   },
