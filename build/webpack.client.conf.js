@@ -10,6 +10,11 @@ module.exports = merge(baseWebpackConfig, {
     app: './src/entry-client.js',
     vender: ['vue'],
   },
+  resolve: {
+    alias: {
+      'vue$': 'vue/dist/vue.runtime.esm.js'
+    }
+  },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
       name: "vender",
