@@ -90,7 +90,6 @@ export default {
   #home {
     .wrapper {
       .center {
-        padding: 0rem !important;
         width: 100% !important;
         margin: 0rem !important;
       }
@@ -115,13 +114,14 @@ export default {
         position: relative;
         padding-left: 2rem;
         font-size: 1.5rem;
+
         &::before {
           display: block;
           content: "";
           width: 1rem;
           height: 1rem;
           border-radius: 50%;
-          background: coral;
+          background: #ff7f50;
           position: absolute;
 
           left: 0rem;
@@ -131,6 +131,9 @@ export default {
         padding-left: 2rem;
 
         margin: 0rem 0rem 1rem 1rem;
+        a {
+          color: @mainColor;
+        }
       }
     }
   }

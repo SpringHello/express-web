@@ -23,6 +23,7 @@
       <a target="_blank" rel="nofollow" href="https://beian.miit.gov.cn/"
         >渝ICP备2020011904号</a
       >
+      <a target="_blank" href="http://www.jrookie.com/sitemap">站点地图</a>
     </div>
   </div>
 </template>
