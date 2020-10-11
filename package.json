@@ -5,7 +5,7 @@
   "author": "tanchengwei <804589369@qq.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config ./build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server --inline --progress --open --config ./build/webpack.dev.conf.js",
     "start": "node server.js",
     "build:client": "node build/build-client.js",
     "build:server": "node build/build-server.js",

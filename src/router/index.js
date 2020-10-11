@@ -3,11 +3,12 @@ import Router from 'vue-router'
 
 import App from '@/App'
 
-import Home from '@/page/Home'
-import Sitemap from '@/page/Sitemap'
-
-import Carousel from '@/page/vueDemo/Carousel'
-
+//import Home from '@/page/Home'
+const Home = () => import('@/page/Home')
+//import Sitemap from '@/page/Sitemap'
+const Sitemap = () => import('@/page/Sitemap')
+//import Carousel from '@/page/vueDemo/Carousel'
+const Carousel = () => import('@/page/vueDemo/Carousel')
 
 Vue.use(Router)
 
