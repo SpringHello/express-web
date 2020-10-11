@@ -40,6 +40,12 @@ export default {
       },
       type: Array,
     },
+    interval: {
+      default() {
+        return 5000;
+      },
+      type: Number,
+    },
     row: {
       default() {
         return 20;
@@ -73,7 +79,7 @@ export default {
         this.currentUrl = this.nextUrl;
         this.nextUrl = (this.currentUrl + 1) % this.urls.length;
       }, 1000);
-    }, 5000);
+    }, this.interval);
   },
 };
 </script>>
