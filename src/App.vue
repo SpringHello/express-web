@@ -6,7 +6,7 @@
           <nav>
             <div>
               <router-link to="/">C</router-link>
-              <router-link to="/javascript">JS</router-link>
+              <router-link to="/javascript/01.html">JS</router-link>
             </div>
           </nav>
         </div>
