@@ -10,6 +10,8 @@ const Sitemap = () => import('@/page/Sitemap')
 //import Carousel from '@/page/vueDemo/Carousel'
 const Carousel = () => import('@/page/vueDemo/Carousel')
 
+const Slider = () => import('@/page/vueDemo/Slider')
+
 Vue.use(Router)
 
 export default function createRouter() {
@@ -35,6 +37,11 @@ export default function createRouter() {
             path: '/vueDemo/01.html',
             name: 'Carousel',
             component: Carousel,
+          },
+          {
+            path: '/vueDemo/02.html',
+            name: 'Slider',
+            component: Slider,
           },
           {
             path: '/*',

@@ -10,6 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = merge(baseWebpackConfig, {
   entry: './src/entry-client.js',
   devServer: {
+    host: '0.0.0.0',
     historyApiFallback: {
       rewrites: [{
         from: /.*/g,

@@ -19,7 +19,7 @@
           <div
             class="markdown-body editormd-preview-container"
             previewcontainer="true"
-            style="padding: 20px"
+            style="padding: 0px"
           >
             <p>
               本期为大家带来一个基于Vue的滚动轮播组件，该组件使用CSS3
